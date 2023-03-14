@@ -18,7 +18,8 @@ b. invoice management - search/create the invoice for the user and download the 
 
 Tech stack - Java 17, spring mvc, spring security, thymleaf, h2 database, flying-saucer library for pdf generation ( check pom.xml for more details)
 
-This application stores invoice copies in ${user.home}/invoices directory on the local machine, h2 database is created in ${user.home} directory with name as myFirstH2Database.mv
+This application stores invoice copies in ${user.home}/invoices directory on the local machine.
+h2 database is created in ${user.home} directory with name as myFirstH2Database
 
 Incase, you want to connect to h2 database thoroug UI interface, go to the h2 jar location, typical location can be - $[user.home}/.m2/repository/com/h2database/h2/1.4.200. run the command to explore the h2 options -> java -cp h2-1.4.200.jar org.h2.tools.Server -help
 
