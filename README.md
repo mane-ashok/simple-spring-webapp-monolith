@@ -16,7 +16,7 @@ This web application provides 2 functionalities
 a. user management - user registration, login/logout and user listing
 b. invoice management - search/create the invoice for the user and download the invoice copy(pdf format)
 
-Tech stack - Java 17, spring mvc, spring security, thymleaf, h2 database, flying-saucer library for pdf generation ( check pom.xml for more details)
+Tech stack - Java 17, spring mvc, spring security, thymleaf, h2 database, JPA, hibernate-validator, flying-saucer library for pdf generation ( check pom.xml for more details)
 
 This application stores invoice copies in ${user.home}/invoices directory on the local machine.
 h2 database is created in ${user.home} directory with name as myFirstH2Database
