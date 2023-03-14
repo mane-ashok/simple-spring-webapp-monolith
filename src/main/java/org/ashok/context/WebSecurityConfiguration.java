@@ -31,8 +31,9 @@ public class WebSecurityConfiguration {
                         authorize.mvcMatchers("/register/**").permitAll()
                                 .mvcMatchers("/index").permitAll()
                                 .mvcMatchers("/users").hasRole("ADMIN")
-                                .mvcMatchers("/search/**").hasRole("ADMIN")
+                                .mvcMatchers("/searchInvoice=").hasRole("ADMIN")
                                 .mvcMatchers("/invoices").hasRole("ADMIN")
+                                .mvcMatchers("/download/**").hasRole("ADMIN")
                                 
                 ).formLogin(
                         form -> form

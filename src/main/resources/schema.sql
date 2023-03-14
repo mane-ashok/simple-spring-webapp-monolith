@@ -1,4 +1,4 @@
-/*drop table invoices;*/
+--drop table invoices;
 create table if not exists invoices
 (
     id numeric primary key,

@@ -1,7 +1,11 @@
 package org.ashok.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.ashok.dto.SearchInvoiceDto;
@@ -10,13 +14,12 @@ import org.ashok.service.InvoiceService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-//https://www.baeldung.com/thymeleaf-generate-pdf
-//https://stackoverflow.com/questions/44220739/invoice-generation-thymeleaf-spring-itextpdf
 
 @Controller
 public class InvoiceController {
@@ -34,26 +37,55 @@ public class InvoiceController {
     	SearchInvoiceDto searchInvoiceDto = new SearchInvoiceDto();
     	model.addAttribute("searchInvoice", searchInvoiceDto);
     	return "searchInvoice.html";
+    	//return "invoices.html";
     	
     }
     
-    @PostMapping("/search/invoice")
+    @PostMapping("/searchInvoice")
     public String searchInvoice(@Valid @ModelAttribute("searchInvoice") SearchInvoiceDto invoiceDto,
                                BindingResult result,
                                Model model){
         System.out.println("Entering searchInvoice controller method");
     	
-    	List<Invoice> invoices = invoiceService.searchInvoice(invoiceDto);
-    	System.out.println("invoices.size() =" + invoices.size());
-        
         if (result.hasErrors()) {
             model.addAttribute("searchInvoice", invoiceDto);
             System.out.println("searchInvoice found errors, so returning to searchInvoice.html");
             return "searchInvoice.html";
         }
         
+    	List<Invoice> invoices = invoiceService.findOrCreateInvoice(invoiceDto);
+    	System.out.println("invoices.size() =" + invoices.size());
+        
+                
+       
+        
         model.addAttribute("invoices", invoices);
         return "invoices.html";
+    }
+    
+    @GetMapping("/download/{fileName}")
+    @ResponseBody
+    public void downloadInvoice(@PathVariable String fileName, HttpServletResponse response) {
+    	
+  		Path invoiceFile = Paths.get(System.getProperty("user.home"),"invoices", fileName);
+	
+		if(Files.exists(invoiceFile)) {
+			
+			response.setContentType("application/pdf");
+            response.addHeader("Content-Disposition", "attachment; filename="+fileName);
+            try {
+            	Files.copy(invoiceFile, response.getOutputStream());
+                response.getOutputStream().flush();
+			               
+    		}
+            catch (Exception e) {
+    			throw new RuntimeException(e);
+    		}
+    	}
+		else {
+			System.out.println("File not found");
+		}
+    	
     }
    
 }

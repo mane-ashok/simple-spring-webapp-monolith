@@ -131,6 +131,21 @@
 		    <artifactId>spring-security-config</artifactId>
 		    <version>5.5.2</version>
 		</dependency>
+		
+		<!-- xtml to pdf converter -->
+		<dependency>
+		    <groupId>org.xhtmlrenderer</groupId>
+		    <artifactId>flying-saucer-pdf</artifactId>
+		    <version>9.1.22</version>
+		</dependency>
+		
+		<!-- html to xhtml converter-->	
+		<dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.13.1</version>
+        </dependency>
+				
 			        	  
   </dependencies>
   
@@ -197,7 +212,19 @@
 							</transformer>
 							
 						</transformers>
+						<filters>
+							<filter>
+								<artifact>*:*</artifact>
+								<excludes>
+									<exclude>META-INF/*.SF</exclude>
+									<exclude>META-INF/*.DSA</exclude>
+									<exclude>META-INF/*.RSA</exclude>
+									
+								</excludes>
+							</filter>
+						</filters>
 					</configuration>
+					
 					
 				</execution>
 			</executions>
