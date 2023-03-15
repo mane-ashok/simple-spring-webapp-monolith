@@ -27,14 +27,7 @@ public class AppLauncher {
 		tomcatContext.addFilterMap(getFilterMapping());
 
 		WebApplicationContext appContext = createApplicationContext(tomcatContext.getServletContext());
-
-		/*
-		 * add security filter to the servlet context
-		 * tomcatContext.getServletContext().addFilter("securityFilter", new
-		 * DelegatingFilterProxy("filterChain")).addMappingForUrlPatterns(null, false,
-		 * "/*"); //NOTE: above filterChain bean is definded in
-		 * WebSecurityConfiguration.class
-		 */
+		
 		DispatcherServlet dispatcherServlet = new DispatcherServlet(appContext);
 
 		Wrapper servlet = Tomcat.addServlet(tomcatContext, "dispatcherServlet", dispatcherServlet);

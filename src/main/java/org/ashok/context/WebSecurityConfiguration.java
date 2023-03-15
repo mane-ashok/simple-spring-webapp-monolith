@@ -28,10 +28,11 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests((authorize) ->
-                        authorize.mvcMatchers("/register/**").permitAll()
-                                .mvcMatchers("/index").permitAll()
-                                .mvcMatchers("/users").hasRole("ADMIN")
-                                .mvcMatchers("/searchInvoice=").hasRole("ADMIN")
+                				authorize
+                				//.mvcMatchers("/**").permitAll() //uncomment this line if you want to disable spring security
+                				.mvcMatchers("/index*","/register*/**","/resources/**").permitAll()
+                        		.mvcMatchers("/users").hasRole("ADMIN")
+                                .mvcMatchers("/searchInvoice").hasRole("ADMIN")
                                 .mvcMatchers("/invoices").hasRole("ADMIN")
                                 .mvcMatchers("/download/**").hasRole("ADMIN")
                                 
@@ -39,7 +40,7 @@ public class WebSecurityConfiguration {
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/users")
+                                .defaultSuccessUrl("/users",true)
                                 .permitAll()
                 ).logout(
                         logout -> logout
