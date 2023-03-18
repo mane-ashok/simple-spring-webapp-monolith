@@ -28,6 +28,13 @@ public class AppLauncher {
 
 		WebApplicationContext appContext = createApplicationContext(tomcatContext.getServletContext());
 		
+		System.out.println("BeansCount:" + appContext.getBeanDefinitionCount());
+		for(String beanName: appContext.getBeanDefinitionNames())
+		{
+			System.out.println(beanName);
+		}
+		
+		
 		DispatcherServlet dispatcherServlet = new DispatcherServlet(appContext);
 
 		Wrapper servlet = Tomcat.addServlet(tomcatContext, "dispatcherServlet", dispatcherServlet);
